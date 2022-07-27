@@ -1,0 +1,36 @@
+-- Create a store database.
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT, inventory INTEGER, color TEXT, price  INTEGER );
+
+INSERT INTO store VALUES (1, "Pants", 10, "red", 10.5);
+INSERT INTO store VALUES (2, "Watches", 5, "black", 9.5);
+INSERT INTO store VALUES (3, "Purses", 13, "beige", 8.99);
+INSERT INTO store VALUES (4, "Blouses", 10, "pink",10.99);
+INSERT INTO store VALUES (5, "Hats", 6, "brown",5.66);
+INSERT INTO store VALUES (6, "Computer", 10, "red", 10.5);
+INSERT INTO store VALUES (7, "Safety pins", 5, "black", 9.5);
+INSERT INTO store VALUES (8, "Diapers", 13, "beige", 8.99);
+INSERT INTO store VALUES (9, "Sports clothes", 10, "pink",10.99);
+INSERT INTO store VALUES (10, "Toothbrush", 6, "brown",5.66);
+INSERT INTO store VALUES (11, "Monitors", 10, "red", 10.5);
+INSERT INTO store VALUES (12, "Stickers", 5, "black", 9.5);
+INSERT INTO store VALUES (13, "Necklaces", 13, "beige", 8.99);
+INSERT INTO store VALUES (14, "Earrings", 10, "pink",10.99);
+INSERT INTO store VALUES (15, "Hoodie", 6, "brown",5.66);
+
+--- Display the database ordered by price.
+
+SELECT * FROM store ORDER BY price DESC;
+
+--- What is the average price of black items?
+
+SELECT AVG(price) "avg_price"
+FROM store
+WHERE color = "black";
+
+--- What are the items with the most inventory which prices are above $8.00?
+SELECT item, inventory, price
+FROM store
+WHERE price >= 8
+ORDER BY inventory DESC
+LIMIT 5;
