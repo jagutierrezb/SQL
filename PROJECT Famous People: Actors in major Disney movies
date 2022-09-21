@@ -1,0 +1,71 @@
+/* Create 3 tables about actors who played characters in major Disney movies and what they do besides acting */
+
+CREATE TABLE actors_disney_movie (id INTEGER PRIMARY KEY, name TEXT, date_movie_released INTEGER, character TEXT);
+
+INSERT INTO actors_disney_movie (id, name, date_movie_released, character) VALUES (1, "Josh Gad", 2013, "Olaf");
+INSERT INTO actors_disney_movie (id, name, date_movie_released, character) VALUES (2, "Robby Benson", 1991, "Beast");
+INSERT INTO actors_disney_movie (id, name, date_movie_released, character) VALUES (3, "Paige O'hara", 1991, "Belle");
+INSERT INTO actors_disney_movie (id, name, date_movie_released, character) VALUES (4, "Kathryn Beaumont", 1951, "Alice");
+INSERT INTO actors_disney_movie (id, name, date_movie_released, character) VALUES (5, "Verna Felton", 1950, "Fairy Godmother");
+
+CREATE TABLE talents (id INTEGER PRIMARY KEY, person_id INTEGER, talent TEXT);
+
+INSERT INTO talents (id, person_id, talent) VALUES (1, 1, "acting");
+INSERT INTO talents (id, person_id, talent) VALUES (2, 1, "singing");
+INSERT INTO talents (id, person_id, talent) VALUES (3, 2, "writing");
+INSERT INTO talents (id, person_id, talent) VALUES (4, 2, "directing");
+INSERT INTO talents (id, person_id, talent) VALUES (5, 2, "composing");
+INSERT INTO talents (id, person_id, talent) VALUES (6, 2, "acting");
+INSERT INTO talents (id, person_id, talent) VALUES (7, 2, "film teaching");
+INSERT INTO talents (id, person_id, talent) VALUES (8, 3, "acting");
+INSERT INTO talents (id, person_id, talent) VALUES (9, 3, "singing");
+INSERT INTO talents (id, person_id, talent) VALUES (10, 3, "painting");
+INSERT INTO talents (id, person_id, talent) VALUES (11, 4, "acting");
+INSERT INTO talents (id, person_id, talent) VALUES (12, 5, "acting");
+INSERT INTO talents (id, person_id, talent) VALUES (13, 5, "dubbing");
+INSERT INTO talents (id, person_id, talent) VALUES (14, 5, "dancing");
+
+CREATE TABLE disney_movies (id INTEGER PRIMARY KEY, person_id INTEGER, title TEXT);
+
+INSERT INTO disney_movies (id, person_id, title) VALUES (1, 1, "Frozen");
+INSERT INTO disney_movies (id, person_id, title) VALUES (2, 2, "Beauty and the Beast");
+INSERT INTO disney_movies (id, person_id, title) VALUES (3, 3, "Beauty and the Beast");
+INSERT INTO disney_movies (id, person_id, title) VALUES (4, 4, "Alice in Wonderland");
+INSERT INTO disney_movies (id, person_id, title) VALUES (5, 5, "Sleeping Beauty");
+
+/* Show actors who worked in a Disney Movie, the date the movie was released and the character they played */
+
+SELECT * FROM actors_disney_movie;
+
+/* Show what talents each actor have besides acting */
+
+SELECT * FROM talents;
+
+/* Show what was the Disney movie each actor worked in */
+
+SELECT * FROM disney_movies;
+
+/* Show what person worked in each movie ordered by their release date*/
+
+SELECT actors_disney_movie.name, disney_movies.title, actors_disney_movie.date_movie_released
+FROM actors_disney_movie
+JOIN disney_movies
+ON actors_disney_movie.id = disney_movies.person_id
+ORDER BY actors_disney_movie.date_movie_released ASC;
+
+/* Show each person's talents besides acting */
+
+SELECT actors_disney_movie.name, talents.talent
+FROM actors_disney_movie
+LEFT JOIN talents 
+ON actors_disney_movie.id = talents.person_id
+WHERE talents.talent IS NOT "acting"
+ORDER BY talents.talent ASC;
+
+/* Show what character each person played at each movie ordered by their release date but do not show it on the table */
+
+SELECT actors_disney_movie.name, actors_disney_movie.character, disney_movies.title
+FROM actors_disney_movie
+JOIN disney_movies
+ON actors_disney_movie.id = disney_movies.person_id
+ORDER BY actors_disney_movie.date_movie_released ASC;
