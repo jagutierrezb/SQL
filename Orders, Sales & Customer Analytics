@@ -1,0 +1,60 @@
+/* In this SQL project, I'm querying for statistics on sales and customers from a database containing 6 tables */
+
+/* #1. Orders placed in January */
+
+SELECT COUNT(orderID) 
+FROM BIT_DB.JanSales
+
+/* #2. Orders places for an iPhone in January */
+
+SELECT COUNT(Product)
+FROM BIT_DB.JanSales
+WHERE Product="iPhone";
+
+/* #3. Select the customer account numbers for all orders placed in February */
+
+SELECT acctnum
+FROM BIT_DB.customers c
+INNER JOIN BIT_DB.FebSales fs
+ON c.order_id=fs.orderID;
+
+/* #4. The cheapest product sold on January */
+
+SELECT DISTINCT Product, price
+FROM BIT_DB.JanSales
+WHERE price IN (SELECT DISTINCT MIN(price) FROM BIT_DB.JanSales);
+
+/* Or */
+
+SELECT DISTINCT Product, price
+FROM BIT_DB.JanSales
+ORDER BY price ASC
+LIMIT 1;
+
+/* Or */
+
+SELECT DISTINCT Product, MIN(price)
+FROM BIT_DB.JanSales;
+
+/* #5. Total revenue for each product sold in January */
+
+SELECT DISTINCT Product, SUM(Quantity)*price AS Revenue
+FROM BIT_DB.JanSales
+GROUP BY Product
+ORDER BY Revenue DESC;
+
+/* #6. Products sold at 548 Lincoln St, Seattle, WA 98101,  quantity sold and total revenue for each product in February */
+
+SELECT Product, Quantity, SUM(Quantity)*price AS Revenue
+FROM BIT_DB.FebSales
+WHERE location="548 Lincoln St, Seattle, WA 98101"
+GROUP BY Product
+ORDER BY Revenue DESC;
+
+/* Customers who ordered more than 2 products at a time in February and the amount spent by those customers */
+
+SELECT COUNT(c.acctnum), AVG(Quantity*price) as Average_Spent
+FROM BIT_DB.customers c
+LEFT JOIN BIT_DB.FebSales fs
+ON c.order_id=fs.orderID
+WHERE fs.Quantity>2;
