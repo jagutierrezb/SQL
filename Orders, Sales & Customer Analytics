@@ -51,10 +51,19 @@ WHERE location="548 Lincoln St, Seattle, WA 98101"
 GROUP BY Product
 ORDER BY Revenue DESC;
 
-/* Customers who ordered more than 2 products at a time in February and the amount spent by those customers */
+/* #7. Customers who ordered more than 2 products at a time in February and the amount spent by those customers */
 
 SELECT COUNT(c.acctnum), AVG(Quantity*price) as Average_Spent
 FROM BIT_DB.customers c
 LEFT JOIN BIT_DB.FebSales fs
 ON c.order_id=fs.orderID
 WHERE fs.Quantity>2;
+
+/* #8. Products sold in Los Angeles during February listed by quantity sold */
+
+SELECT Product, SUM(Quantity) AS Qty_Sold
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product
+ORDER BY Qty_Sold DESC
+
