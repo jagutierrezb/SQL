@@ -186,3 +186,15 @@ END AS "Average_Comparison"
 FROM Spotifydata
 GROUP BY track_name
 ORDER BY speechiness DESC
+
+#3.19. Query the artists with an average popularity of 90 or above, show their names, average popularity and label them as "Top Stars".
+
+WITH SpotifyTemp AS (
+SELECT artist_name, AVG(popularity) AS Average_Popularity
+    FROM Spotifydata
+    GROUP BY artist_name
+) 
+
+SELECT artist_name, Average_Popularity, 'Top Star' AS tag    
+FROM SpotifyTemp
+WHERE Average_Popularity >= 90
